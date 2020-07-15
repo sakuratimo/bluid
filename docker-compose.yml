@@ -2,7 +2,7 @@ version: "3"
 services:
   web:
     image: bludit/docker:3.12.0
-    container_name: web-app
+    container_name:  web-app
     ports:
        - "8000:80"
     restart: always
