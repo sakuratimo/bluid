@@ -1,0 +1,8 @@
+FROM ubuntu:18.04
+
+ADD resource/suricata_install.sh /
+ADD resource/local.rules /
+RUN /bin/sh /suricata_install.sh
+
+ADD resource/scan.sh /
+CMD ["/bin/sh", "-c", "echo 1 && /bin/sh /scan.sh"]

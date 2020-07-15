@@ -1,0 +1,31 @@
+version: "3"
+services:
+  web:
+    build:
+       context: .
+    image: bludit/docker:3.12.0
+    container_name: web-app
+    ports:
+       - "8000:80"
+    restart: always
+    stdin_open: true
+    tty: true
+
+
+  config:
+    build:
+        context: .
+        dockerfile: Dockerfile_config
+    depends_on:
+      - web
+    container_name: config-app
+
+
+  poc:
+    build:
+        context: .
+        dockerfile: Dockerfile_poc
+    depends_on:
+      - web
+      - config
+    container_name: poc-app

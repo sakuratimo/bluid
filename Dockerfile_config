@@ -1,0 +1,10 @@
+FROM python:3
+
+WORKDIR /usr/src/api
+ADD ./config.sh /config.sh
+ADD ./config.py /config.py
+ADD requirements_config.txt /requirements_config.txt
+RUN chmod +x /config.sh
+CMD ["bash", "-c", "echo 1 && bash /config.sh"]
+
+

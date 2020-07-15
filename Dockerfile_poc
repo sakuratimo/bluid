@@ -1,0 +1,10 @@
+FROM python:3
+
+WORKDIR /usr/src/api
+ADD ./poc.sh /poc.sh
+ADD ./poc.py /poc.py
+ADD requirements_poc.txt /requirements_poc.txt
+RUN chmod +x /poc.sh
+CMD ["bash", "-c", "echo 1 && bash /poc.sh"]
+
+
