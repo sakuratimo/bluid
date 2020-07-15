@@ -1,8 +1,6 @@
 version: "3"
 services:
   web:
-    build:
-       context: .
     image: bludit/docker:3.12.0
     container_name: web-app
     ports:
