@@ -1,3 +1,8 @@
+@load base/protocols/http/main.zeek
+@load base/protocols/http/utils.zeek
+@load base/frameworks/notice
+@load base/frameworks/sumstats
+@load base/protocols/http
 export {
     redef enum Notice::Type += {
         attack_fpm,
