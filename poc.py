@@ -45,8 +45,8 @@ def check(result):
         return -1
 
 if __name__ == "__main__":
-    #host =sys.argv[1]
-    host= "192.168.56.101:8000"
+    host =sys.argv[1]
+    #host= "192.168.56.101:8000"
     cookies=login(host)
     result=ad(cookies,host)
     check(result)
