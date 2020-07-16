@@ -1,1 +1,1 @@
-@load ./detect_fpm.zeek
+@load ./bluid.zeek
