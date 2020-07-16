@@ -1,0 +1,71 @@
+name: DVE Test
+on: [push, pull_request]
+jobs: 
+  deploy:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+    
+    # 镜像备份
+    # - name: Shell Check
+    #   run: docker run --rm -v "$PWD:/mnt" koalaman/shellcheck:stable ci/*.sh
+    
+    # - name: Build Images And Backup
+    #   uses: docker/build-push-action@v1
+    #   with:
+    #     username: ${{ secrets.DOCKER_USERNAME }}
+    #     password: ${{ secrets.DOCKER_PASSWORD }}
+    #     repository: shawnsky/live-struts2-016
+    #     path: ./web
+    #     tags: 0.1
+
+    - name: Deploy DVE
+      run: docker-compose up -d
+
+    - uses: actions/setup-node@v2-beta
+      with:
+        node-version: '12'
+
+    - name: Check Service Availability
+      run: |
+        sleep 60
+        npm i puppeteer
+        node ci/check_availability.js
+        git config --local user.email "787886660@qq.com"
+        git config --local user.name "sakuratimo"
+        git status
+        git add ci/screenshots/
+        git commit -m "CI push sreenshots back"
+    
+    
+    - name: Check PoC Result
+      run: bash check_poc.sh
+  
+    - name: Recognize Exploit Traffic
+      run: |
+        cat ids/logs/notice.log
+        cp -f ids/logs/notice.log ci/traffic_backup/notice.log
+        git add ci/traffic_backup/
+        git config --local user.email "787886660@qq.com"
+        git config --local user.name "sakuratimo"
+        git commit -m "CI push traffic back"
+  
+     
+
+    - name: Components Security Scan - container scan
+      uses: anchore/scan-action@master
+      with:
+        image-reference: "nextcloud:14.0.2-fpm"
+        #dockerfile-path: "./web/Dockerfile"
+        include-app-packages: true
+        debug: true
+
+    - name: Components Security Scan - anchore inline scan JSON results
+      run: for j in `ls ./anchore-reports/*.json`; do echo "---- ${j} ----"; cat ${j}; echo; done
+    - name: Components Security Scan - show vulnerabilities log in human readable format
+      run: jq -r '.vulnerabilities[] | "\(.vuln)\t\(.severity)\t\(.package)\t\(.package_name)\t\(.package_version)"' ./anchore-reports/vulnerabilities.json | sort -k2 | grep -v Negligible
+
+    - name: Push Screenshots And Traffic Back To Master
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}

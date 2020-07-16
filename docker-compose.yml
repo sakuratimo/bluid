@@ -27,3 +27,12 @@ services:
       - web
       - config
     container_name: poc-app
+
+  ids:
+    image: fixel/zeek:latest
+    network_mode: service:web
+    container_name: zeek
+    volumes:
+      - ./ids/logs:/usr/local/zeek/logs
+      - ./ids/policy_detect_read:/usr/local/zeek/share/zeek/policy/policy_detect_read
+    command: -C -i eth0 policy/policy_detect_read
