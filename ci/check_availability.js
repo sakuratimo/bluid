@@ -1,7 +1,7 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 const dir = "./ci/screenshots";
-const url = "http://127.0.0.1:8000/";
+const url = "http://127.0.0.1:8000/admin";
 
 if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);
@@ -15,9 +15,8 @@ if (!fs.existsSync(dir)) {
     height: 1080,
   });
   try {
+  
     await page.goto(url);
-    await page.screenshot({ path: dir + "/index.png" });
-    await page.goto(url+"/admin");
     await page.screenshot({ path: dir + "/login.png" });
     await page.type("#jsusername", "admin");
     await page.type("#jspassword", "cuc123");
