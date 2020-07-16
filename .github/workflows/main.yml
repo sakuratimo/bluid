@@ -38,8 +38,8 @@ jobs:
         git commit -m "CI push sreenshots back"
     
     
-    # - name: Check PoC Result
-    #   run: bash check_poc.sh
+    - name: Check PoC Result
+      run: bash check_poc.sh
   
     - name: Recognize Exploit Traffic
       run: |
