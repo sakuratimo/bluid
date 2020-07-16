@@ -1,6 +1,6 @@
 export {
     redef enum Notice::Type += {
-        attack_read,
+        attack_fpm,
     };
 }
 
@@ -8,8 +8,8 @@ event tcp_packet(c: connection, is_orig: bool, flags: string, seq: count, ack: c
  {
  if ( is_orig && "plugin-backup-download?file=../" in payload )
             {
-            local n: Notice::Info = Notice::Info($note=attack_read, 
-                                                 $msg="attack read ", 
+            local n: Notice::Info = Notice::Info($note=attack_fpm, 
+                                                 $msg="attack fpm ", 
                                                  $sub=payload,
                                                  $conn=c);
             NOTICE(n);

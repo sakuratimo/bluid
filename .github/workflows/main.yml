@@ -28,7 +28,7 @@ jobs:
 
     - name: Check Service Availability
       run: |
-        sleep 60
+        sleep 50
         npm i puppeteer
         node ci/check_availability.js
         git config --local user.email "787886660@qq.com"
@@ -55,7 +55,7 @@ jobs:
     - name: Components Security Scan - container scan
       uses: anchore/scan-action@master
       with:
-        image-reference: "nextcloud:14.0.2-fpm"
+        image-reference: "bludit/docker:3.12.0"
         #dockerfile-path: "./web/Dockerfile"
         include-app-packages: true
         debug: true
