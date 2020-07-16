@@ -20,7 +20,7 @@ if (!fs.existsSync(dir)) {
     await page.screenshot({ path: dir + "/login.png" });
     await page.type("#jsusername", "admin");
     await page.type("#jspassword", "cuc123");
-    await page.click("#submit", { delay: 3000 });
+    await page.click('button[type="submit"]', { delay: 3000 });
     await page.waitFor(3000);
     await page.screenshot({ path: dir + "/login_in.png" });
   } catch (e) {
